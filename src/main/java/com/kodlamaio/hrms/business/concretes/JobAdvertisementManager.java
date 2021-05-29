@@ -1,6 +1,8 @@
 package com.kodlamaio.hrms.business.concretes;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +33,8 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 	public DataResult<List<JobAdvertisementDto>> getAll() {
 		List<JobAdvertisement> jobAdvertisements=jobAdvertisementDao.findAllByActiveTrue();
 	
-		return new SuccessDataResult<List<JobAdvertisementDto>>(jobAdvertisementToDto(jobAdvertisements),"Basariyla listelendi");
+		return new SuccessDataResult<List<JobAdvertisementDto>>
+		(jobAdvertisementToDto(jobAdvertisements),"Basariyla listelendi");
 	}
 
 	@Override
@@ -49,22 +52,6 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 		(jobAdvertisementToDto(jobAdvertisements),"Basariyla tarihe gore siralandi listelendi");
 	
 	}
-
-
-	private List<JobAdvertisementDto> jobAdvertisementToDto(List<JobAdvertisement> jobAdvertisements)
-	{		
-		List<JobAdvertisementDto> jobAdvertisementDtos= new ArrayList<JobAdvertisementDto>();
-		for (JobAdvertisement jobAdvertisement : jobAdvertisements) {
-			JobAdvertisementDto jobAdvertisementDto=modelMapper
-					.map(jobAdvertisement,JobAdvertisementDto.class);
-		
-			jobAdvertisementDtos.add(jobAdvertisementDto);
-		}
-		return jobAdvertisementDtos;
-		
-	}
-
-
 	@Override
 	public DataResult<List<JobAdvertisementDto>> findAllByIdAndActiveTrue(int employerId) {
 		List<JobAdvertisement> jobAdvertisements=jobAdvertisementDao.findAllByEmployerIdAndActiveTrue(employerId);
@@ -81,5 +68,9 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 		(modelMapper.map(jobAdvertisementDao.save(jobAdvertisement), JobAdvertisementDto.class));
 
 	}
-
+	private List<JobAdvertisementDto> jobAdvertisementToDto(List<JobAdvertisement> jobAdvertisements){		
+		return jobAdvertisements.stream()
+		.map(jobAdvertisement->modelMapper.map(jobAdvertisement,JobAdvertisementDto.class))
+		.collect(Collectors.toList());
+	}
 }
