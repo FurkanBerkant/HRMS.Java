@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kodlamaio.hrms.business.abstracts.ActivationCodeService;
 import com.kodlamaio.hrms.business.abstracts.EmployerService;
 import com.kodlamaio.hrms.core.utilities.business.BusinessRules;
 import com.kodlamaio.hrms.core.utilities.results.DataResult;
@@ -21,9 +22,12 @@ import com.kodlamaio.hrms.entities.concretes.Employer;
 public class EmployerManager implements EmployerService {
 	private EmployerDao employerDao;
 
+	private ActivationCodeService activationCodeService;
+
 	@Autowired
-	public EmployerManager(EmployerDao employerDao) {
+	public EmployerManager(EmployerDao employerDao,ActivationCodeService activationCodeService) {
 		super();
+		this.activationCodeService=activationCodeService;
 		this.employerDao = employerDao;
 	}
 
@@ -41,6 +45,7 @@ public class EmployerManager implements EmployerService {
 				checkEmailDomain(employers));
 		if (result.isSuccess()) {
 			employerDao.save(employers);
+			activationCodeService.sendVerificationCode(employers.getId());
 			return new SuccessResult("basariyla iş veren eklendi");
 		}
 		return new ErrorResult(result.getMessage());

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kodlamaio.hrms.business.abstracts.ActivationCodeService;
+import com.kodlamaio.hrms.business.abstracts.EmployersActivationByEmployeeService;
 import com.kodlamaio.hrms.core.utilities.results.Result;
 
 @RestController
@@ -28,4 +29,5 @@ public class ActivationCodesController {
 		
 		return result;
 	}
+	
 }

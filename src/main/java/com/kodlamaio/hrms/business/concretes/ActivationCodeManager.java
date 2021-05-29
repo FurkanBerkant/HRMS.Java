@@ -27,7 +27,7 @@ public class ActivationCodeManager implements ActivationCodeService{
 	public Result sendVerificationCode(int userId) {
 		activationCodeDao.save(new ActivationCode(userId, UUID.randomUUID().toString(), false));
 		
-		return new SuccessResult("Aktivasyon kodu gnderildi.");
+		return new SuccessResult("Aktivasyon kodu gonderildi.");
 		
 	}
 
@@ -41,7 +41,11 @@ public class ActivationCodeManager implements ActivationCodeService{
 		activationCode.setConfirmed(true);
 		activationCodeDao.save(activationCode);
 		return new SuccessResult("Kullanici doğrulandi.");
-			}
-		}
+
+}
+
+	
+		
+}
 
 

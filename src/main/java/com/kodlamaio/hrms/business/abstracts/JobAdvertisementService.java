@@ -12,6 +12,6 @@ public interface JobAdvertisementService {
     Result add(JobAdvertisementRequestDto jobAdvertisementRequestDto);
     DataResult<List<JobAdvertisementDto>> findAllByActiveTrueOrderByCreatedDateDesc();
     DataResult<List<JobAdvertisementDto>> findAllByIdAndActiveTrue(int employerId);
-    DataResult<JobAdvertisementDto> update(int id,boolean active);
+    DataResult<JobAdvertisementDto> update(int id,boolean activate);
     
 }
