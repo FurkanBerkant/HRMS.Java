@@ -10,22 +10,21 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
-
 @Table(name = "job_advertisement")
 public class JobAdvertisement {
-
+	
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	
 	
 	@Column(name ="job_description")
 	private String jobDescription;
@@ -33,16 +32,16 @@ public class JobAdvertisement {
 	@Column(name = "application_deadline")
 	private Date applicationDeadline;
 	
-	@ManyToOne
+	@ManyToOne()
 	@JoinColumn(name = "city_id")
 	private City city;
 	
-	@ManyToOne
-	@JoinColumn(name = "job_title_id")
+	@ManyToOne()
+	@JoinColumn(name = "job_position_id")
 	private JobTitle jobTitle;
 	
-	@ManyToOne
-	@JoinColumn(name = "employer_id")
+	@ManyToOne()
+	@JoinColumn(name = "company_name_id")
 	private Employer employer;
 	
 	@Column(name = "vacant_position")
@@ -54,11 +53,27 @@ public class JobAdvertisement {
 	@Column(name = "maximum_salary")
 	private int maximumSalary;
 	
+	@CreationTimestamp
 	@Column(name = "created_date")
 	private Date createdDate;
 	
 	@Column(name = "active")
 	private boolean active;
+
+	public JobAdvertisement(String jobDescription, Date applicationDeadline, City city, JobTitle jobTitle,
+			Employer employer, int vacantPosition, int minimumSalary, int maximumSalary, boolean active) {
+		super();
+		this.jobDescription = jobDescription;
+		this.applicationDeadline = applicationDeadline;
+		this.city = city;
+		this.jobTitle = jobTitle;
+		this.employer = employer;
+		this.vacantPosition = vacantPosition;
+		this.minimumSalary = minimumSalary;
+		this.maximumSalary = maximumSalary;
+		this.active = active;
+	}
+	
 	
 }
 	

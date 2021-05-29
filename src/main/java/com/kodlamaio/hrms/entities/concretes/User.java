@@ -4,9 +4,6 @@ package com.kodlamaio.hrms.entities.concretes;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
-
 import javax.persistence.*;
 
 

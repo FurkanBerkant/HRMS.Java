@@ -41,7 +41,7 @@ public class EmployerManager implements EmployerService {
 				checkEmailDomain(employers));
 		if (result.isSuccess()) {
 			employerDao.save(employers);
-			return new SuccessResult();
+			return new SuccessResult("basariyla iş veren eklendi");
 		}
 		return new ErrorResult(result.getMessage());
 	}

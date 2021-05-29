@@ -1,5 +1,4 @@
 package com.kodlamaio.hrms.entities.concretes;
-import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,20 +11,15 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+
 @EqualsAndHashCode(callSuper=false)
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="job_seekers")
-public class JobSeeker extends User{
+@Table(name = "system_employees")
+public class Employee extends User{
 	
-	@Column(name="firstname")
-	private String firstName;
-	@Column(name="lastname")
-	private String lastName;
-	@Column(name="identity_number",unique = true)
-	private String identityNumber;
-	@Column(name="date_of_birth")
-	private Date date;
-	
-
+    @Column(name = "firstname")
+    private String firstName;
+    @Column(name = "lastname")
+    private String lastName;
 }
