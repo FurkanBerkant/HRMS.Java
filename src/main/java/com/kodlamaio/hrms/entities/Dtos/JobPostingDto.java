@@ -5,13 +5,15 @@ import java.sql.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class JobAdvertisementRequestDto {
-	private int cityId;
-	private int employerId;
-	private int jobTitleId;
+public class JobPostingDto {
+	private String cityName;
+	private String jobTitlePosition;
+	private Date createdDate;
+	private String employerCompanyName;
 	private int id;
 	private String jobDescription;
 	private Date applicationDeadline;
@@ -19,5 +21,5 @@ public class JobAdvertisementRequestDto {
 	private int minimumSalary;
 	private int maximumSalary;
 	private boolean active;
-
 }
+

@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -30,7 +31,8 @@ public class City {
 	private String cityName;
 	@Column(name = "plate_code")
 	private int plateCode;
+	@JsonIgnore
 	@OneToMany(mappedBy = "city")
-	private List<JobAdvertisement> jobAdvertisements;
+	private List<JobPosting> jobAdvertisements;
 	
 }

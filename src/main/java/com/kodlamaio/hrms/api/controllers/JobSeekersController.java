@@ -15,26 +15,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import com.kodlamaio.hrms.business.abstracts.JobTitleService;
+import com.kodlamaio.hrms.business.abstracts.JobSeekerService;
 import com.kodlamaio.hrms.core.utilities.results.DataResult;
 import com.kodlamaio.hrms.core.utilities.results.ErrorDataResult;
-import com.kodlamaio.hrms.entities.concretes.JobTitle;
+import com.kodlamaio.hrms.entities.concretes.JobSeeker;
+
 
 @RestController
-@RequestMapping("/api/position")
-public class JobTitlesController {
+@RequestMapping("/api/jobseekers")
+public class JobSeekersController {
 	@Autowired
-	private JobTitleService jobPositionService;
-	
+	private JobSeekerService jobSeekerService;
+
 	@GetMapping("/getall")
-	public DataResult<List<JobTitle>> getAll() {
-		return this.jobPositionService.getAll();
+	public DataResult<List<JobSeeker>> getAll() {
+		return this.jobSeekerService.getAll();
 	}
 	@PostMapping("/add")
-	public ResponseEntity<?> add(@Valid @RequestBody JobTitle jobPosition) {
-		return  ResponseEntity.ok(jobPositionService.add(jobPosition));
+	public ResponseEntity<?> add(@Valid @RequestBody JobSeeker jobSeekers) {
+		return ResponseEntity.ok(jobSeekerService.add(jobSeekers));
 	}
-	
+
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ErrorDataResult<Object> handleValidationException

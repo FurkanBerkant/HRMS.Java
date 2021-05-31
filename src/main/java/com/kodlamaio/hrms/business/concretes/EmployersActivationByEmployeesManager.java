@@ -1,8 +1,6 @@
 package com.kodlamaio.hrms.business.concretes;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.kodlamaio.hrms.business.abstracts.EmployersActivationByEmployeeService;
 import com.kodlamaio.hrms.core.utilities.business.BusinessRules;
 import com.kodlamaio.hrms.core.utilities.results.ErrorResult;
@@ -16,16 +14,15 @@ import com.kodlamaio.hrms.entities.concretes.Employer;
 import com.kodlamaio.hrms.entities.concretes.EmployersActivationByEmployees;
 @Service
 public class EmployersActivationByEmployeesManager implements EmployersActivationByEmployeeService{
-	private EmployersActivationByEmployeesDao employersActivationByEmployeesDao;
-	private EmployeeDao employeeDao;
-	private EmployerDao employerDao;
+	
 	@Autowired
-	public EmployersActivationByEmployeesManager(EmployersActivationByEmployeesDao employersActivationByEmployeesDao,EmployeeDao employeeDao,EmployerDao employerDao) {
-		super();
-		this.employerDao=employerDao;
-		this.employeeDao=employeeDao;
-		this.employersActivationByEmployeesDao = employersActivationByEmployeesDao;
-	}
+	private EmployersActivationByEmployeesDao employersActivationByEmployeesDao;
+	@Autowired
+	private EmployeeDao employeeDao;
+	@Autowired
+	private EmployerDao employerDao;
+
+
 
 
 	@Override
@@ -35,11 +32,11 @@ public class EmployersActivationByEmployeesManager implements EmployersActivatio
 		Result result = BusinessRules.run
 				(existsByEmployerIdAndEmployeeId(employeeId, employerId));
 		if(employer==null) {
-			return new ErrorResult(" is veren onaylanmadı");
+			return new ErrorResult("employer not approved");
 		}
 		else if(employee==null)
 		{
-			return new ErrorResult("sistem personeli onaylanmadı");
+			return new ErrorResult("employee disapproved");
 		}
 		else if(result.isSuccess())
 		{
@@ -48,17 +45,17 @@ public class EmployersActivationByEmployeesManager implements EmployersActivatio
 		employersActivationByEmployees.setEmployer(employer);
 		employersActivationByEmployees.setEmployee(employee);
 		employersActivationByEmployeesDao.save(employersActivationByEmployees);
-		return new SuccessResult("sistem personeli basariyla isvereni onayladi");
+		return new SuccessResult("system personnel successfully approved the employer");
 		}
-		return new ErrorResult("onaylanmis");
+		return new ErrorResult("this employer has already been approved");
 	}
 	
-	public Result existsByEmployerIdAndEmployeeId(int employeeId,int employerId) {
+	private Result existsByEmployerIdAndEmployeeId(int employeeId,int employerId) {
 
 		if (!employersActivationByEmployeesDao
 				.existsByEmployerIdAndEmployeeId(employerId,employeeId)) {
 			return new SuccessResult();
 		}
-		return new ErrorResult("onaylanmıs");
+		return new ErrorResult("this employer has already been approved");
 	}
 }

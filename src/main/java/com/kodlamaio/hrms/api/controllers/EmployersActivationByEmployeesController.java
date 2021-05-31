@@ -1,40 +1,33 @@
 package com.kodlamaio.hrms.api.controllers;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import com.kodlamaio.hrms.business.abstracts.JobTitleService;
-import com.kodlamaio.hrms.core.utilities.results.DataResult;
+import com.kodlamaio.hrms.business.abstracts.EmployersActivationByEmployeeService;
 import com.kodlamaio.hrms.core.utilities.results.ErrorDataResult;
-import com.kodlamaio.hrms.entities.concretes.JobTitle;
-
+import com.kodlamaio.hrms.core.utilities.results.Result;
 @RestController
-@RequestMapping("/api/position")
-public class JobTitlesController {
+@RequestMapping("/api/employerVerify")
+public class EmployersActivationByEmployeesController {
+
 	@Autowired
-	private JobTitleService jobPositionService;
-	
-	@GetMapping("/getall")
-	public DataResult<List<JobTitle>> getAll() {
-		return this.jobPositionService.getAll();
+	private EmployersActivationByEmployeeService employersActivationByEmployeeService;
+
+
+	@PostMapping("/verify/{employeeId}/{employerId}")
+	public Result personelVerify(@RequestParam("employeeId") int employeeId,@RequestParam("employerId") int employerId)
+	{
+		Result result=employersActivationByEmployeeService.systemVerify(employeeId,employerId);
+		return result;
 	}
-	@PostMapping("/add")
-	public ResponseEntity<?> add(@Valid @RequestBody JobTitle jobPosition) {
-		return  ResponseEntity.ok(jobPositionService.add(jobPosition));
-	}
-	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ErrorDataResult<Object> handleValidationException

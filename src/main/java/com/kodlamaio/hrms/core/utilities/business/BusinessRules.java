@@ -9,7 +9,6 @@ public class BusinessRules {
 			if (!rule.isSuccess()) {
 				return new ErrorResult(rule.getMessage());
 			}
-			
 		}
 		return new SuccessResult();
 		

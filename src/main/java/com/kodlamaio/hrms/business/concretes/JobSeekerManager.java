@@ -1,15 +1,13 @@
 package com.kodlamaio.hrms.business.concretes;
-
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.kodlamaio.hrms.business.abstracts.ActivationCodeService;
+import com.kodlamaio.hrms.business.BusinessRule;
 import com.kodlamaio.hrms.business.abstracts.JobSeekerService;
+import com.kodlamaio.hrms.core.utilities.adapters.abstracts.EmailService;
 import com.kodlamaio.hrms.core.utilities.adapters.abstracts.MernisService;
 import com.kodlamaio.hrms.core.utilities.business.BusinessRules;
 import com.kodlamaio.hrms.core.utilities.results.DataResult;
@@ -18,77 +16,68 @@ import com.kodlamaio.hrms.core.utilities.results.Result;
 import com.kodlamaio.hrms.core.utilities.results.SuccessDataResult;
 import com.kodlamaio.hrms.core.utilities.results.SuccessResult;
 import com.kodlamaio.hrms.dataAccess.abstracts.JobSeekerDao;
+import com.kodlamaio.hrms.dataAccess.abstracts.UserDao;
 import com.kodlamaio.hrms.entities.concretes.JobSeeker;
 
 @Service
 public class JobSeekerManager implements JobSeekerService {
-
-	private JobSeekerDao jobSeekerDao;
-	private MernisService mernisService;
-	private ActivationCodeService activationCodeService;
-
 	@Autowired
-	public JobSeekerManager(JobSeekerDao jobSeekerDao,MernisService mernisService,ActivationCodeService activationCodeService) {
-		super();
-		this.jobSeekerDao = jobSeekerDao;
-		this.mernisService=mernisService;
-		this.activationCodeService=activationCodeService;
-	}
+	private JobSeekerDao jobSeekerDao;
+	@Autowired
+	private MernisService mernisService;
+	@Autowired
+	private EmailService emailService;
+	@Autowired
+	private UserDao userDao;
 
 	@Override
 	public DataResult<List<JobSeeker>> getAll() {
-		return new SuccessDataResult<List<JobSeeker>>(this.jobSeekerDao.findAll(), "Data Listelendi");
+		return new SuccessDataResult<List<JobSeeker>>
+		(this.jobSeekerDao.findAll(), "job seekers list");
 	}
-
 	@Override
 	public Result add(JobSeeker jobSeekers) {
 		Result result=BusinessRules.run(
-				checkAllFields(jobSeekers),
+				BusinessRule.checkPasswordExist(jobSeekers.getPassword(), 
+												jobSeekers.getPasswordCheck()),
+				checkEmailDomain(jobSeekers.getEmail()),
 				checkIfEmailExist(jobSeekers.getEmail()),
 				checkIfIdentityNumberExist(jobSeekers.getIdentityNumber()),
 				checkIfRealPerson(jobSeekers));
 		
 		if(result.isSuccess()) {
 			jobSeekers=jobSeekerDao.save(jobSeekers);
-			activationCodeService.sendVerificationCode(jobSeekers.getId());
-			return new SuccessResult("Basariyla Kaydoldunuz.");
-		}
+			sendMail(jobSeekers.getEmail(),"your email has been confirmed");
+			mernisService.validate(jobSeekers.getIdentityNumber(), 
+					jobSeekers.getFirstName(), jobSeekers.getLastName(), jobSeekers.getDate());
+			return new SuccessResult("you have successfully registered.");
+			}
 		return new ErrorResult(result.getMessage());
 	}
-	
 
-	
-	public Result checkAllFields(JobSeeker jobSeekers) {
-		if (jobSeekers.getFirstName().isEmpty()|| jobSeekers.getLastName().isEmpty() ||
-        		jobSeekers.getIdentityNumber().isEmpty()) {
-			return new ErrorResult("bilgiler bos birakilamaz.");
-			}
+	private Result checkIfEmailExist(String email) {
 		
-		return new SuccessResult();
-		
+		if(!userDao.existsByEmail(email)) {
+			return new SuccessResult();
+		}
+		return new ErrorResult("this email is being used");
 	}
 	
-	public Result checkIfEmailExist(String email) {
+	private Result checkEmailDomain(String email) {
 		String regex = "^(.+)@(.+)$";
 		Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(email);
-		if(matcher.matches()&&!jobSeekerDao.existsByEmail(email)) {
+		if(matcher.matches()) {
 			return new SuccessResult();
 		}
-		return new ErrorResult("Bu email kullanimda");
+		return new ErrorResult("must be in e-mail format");
 	}
-	
-	public Result checkIfIdentityNumberExist(String identityNumber) {
+	private Result checkIfIdentityNumberExist(String identityNumber) {
 		if(!jobSeekerDao.existsByIdentityNumber(identityNumber))
 		{
-			if(identityNumber.length()==11) {
-				return new SuccessResult();
-			}
-			else {
-				return new ErrorResult("tcNo 11 karakter olmalıdır.");
-			}
+			return new SuccessResult();
 		}
-		return new ErrorResult("Bu tcNo kullanimda.");
+		return new ErrorResult("this id is used.");
 	}
 	
 	private Result checkIfRealPerson(JobSeeker jobSeeker) {
@@ -102,5 +91,9 @@ public class JobSeekerManager implements JobSeekerService {
 		   return new SuccessResult();
 			
 		}
+	private void sendMail(String email, String message) {
+		emailService.sendMail(email, message);
+	}
+	
 }
 

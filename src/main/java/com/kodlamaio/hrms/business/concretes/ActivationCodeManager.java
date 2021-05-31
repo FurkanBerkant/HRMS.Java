@@ -15,19 +15,15 @@ import com.kodlamaio.hrms.entities.concretes.ActivationCode;
 @Service
 public class ActivationCodeManager implements ActivationCodeService{
 
+	@Autowired
 	private ActivationCodeDao activationCodeDao;
 	
-	@Autowired
-	public ActivationCodeManager(ActivationCodeDao activationCodeDao) {
-		super();
-		this.activationCodeDao = activationCodeDao;
-	}
 
 	@Override
 	public Result sendVerificationCode(int userId) {
 		activationCodeDao.save(new ActivationCode(userId, UUID.randomUUID().toString(), false));
 		
-		return new SuccessResult("Aktivasyon kodu gonderildi.");
+		return new SuccessResult("activation code sent.");
 		
 	}
 
@@ -36,11 +32,11 @@ public class ActivationCodeManager implements ActivationCodeService{
 		
 		ActivationCode activationCode =activationCodeDao.findByActivationCode(code).orElse(null);
 		if (activationCode==null) {
-			return new ErrorResult("Dogrulanamadi");
+			return new ErrorResult("user could not be verified");
 		}
 		activationCode.setConfirmed(true);
 		activationCodeDao.save(activationCode);
-		return new SuccessResult("Kullanici doğrulandi.");
+		return new SuccessResult("user verified.");
 
 }
 

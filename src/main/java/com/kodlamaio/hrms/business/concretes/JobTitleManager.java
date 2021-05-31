@@ -16,26 +16,23 @@ import com.kodlamaio.hrms.entities.concretes.JobTitle;
 
 @Service
 public class JobTitleManager implements JobTitleService {
-	private final JobTitleDao jobPositionDao;
 	@Autowired
-	public JobTitleManager(JobTitleDao jobPositionDao) {
-		
-		super();
-		this.jobPositionDao = jobPositionDao;
-	}
+	private  JobTitleDao jobPositionDao;
+
+
 
 	@Override
 	public DataResult<List<JobTitle>> getAll() {
 		return new SuccessDataResult<List<JobTitle>>
-		(this.jobPositionDao.findAll(),"Is pozisyonları Listelendi.");
+		(this.jobPositionDao.findAll(),"job positions listed.");
     }
 	@Override
 	public Result add(JobTitle jobPosition) {
 	
 		if (this.jobPositionDao.existsByPosition(jobPosition.getPosition())) {
-			return new ErrorResult("Is pozisyonu mevcut");
+			return new ErrorResult("job position available");
 		}
 		this.jobPositionDao.save(jobPosition);
-				return new SuccessResult("iş pozisyonu eklendi");
+				return new SuccessResult("job position added");
 	}
 }

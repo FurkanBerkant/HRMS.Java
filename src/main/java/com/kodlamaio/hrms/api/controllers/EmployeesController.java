@@ -1,4 +1,5 @@
 package com.kodlamaio.hrms.api.controllers;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,26 +16,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import com.kodlamaio.hrms.business.abstracts.JobTitleService;
+import com.kodlamaio.hrms.business.abstracts.EmployeeService;
 import com.kodlamaio.hrms.core.utilities.results.DataResult;
 import com.kodlamaio.hrms.core.utilities.results.ErrorDataResult;
-import com.kodlamaio.hrms.entities.concretes.JobTitle;
+import com.kodlamaio.hrms.entities.concretes.Employee;
 
 @RestController
-@RequestMapping("/api/position")
-public class JobTitlesController {
+@RequestMapping("/api/employees")
+public class EmployeesController {
 	@Autowired
-	private JobTitleService jobPositionService;
-	
-	@GetMapping("/getall")
-	public DataResult<List<JobTitle>> getAll() {
-		return this.jobPositionService.getAll();
-	}
+	private EmployeeService employeeService;
+
 	@PostMapping("/add")
-	public ResponseEntity<?> add(@Valid @RequestBody JobTitle jobPosition) {
-		return  ResponseEntity.ok(jobPositionService.add(jobPosition));
+	public ResponseEntity<?> add(@Valid @RequestBody  Employee employee) {
+		return  ResponseEntity.ok(employeeService.add(employee)) ;
 	}
-	
+
+	@GetMapping("/getall")
+	public DataResult<List<Employee>> getAll() {
+		return this.employeeService.getAll();
+	}
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ErrorDataResult<Object> handleValidationException

@@ -1,3 +1,4 @@
+
 package com.kodlamaio.hrms.entities.concretes;
 
 import java.sql.Date;
@@ -9,8 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.sun.istack.NotNull;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,14 +23,15 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @Table(name = "job_advertisement")
-public class JobAdvertisement {
+public class JobPosting {
 	
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	
+	@NotBlank
+	@NotNull
 	@Column(name ="job_description")
 	private String jobDescription;
 	
@@ -44,6 +50,8 @@ public class JobAdvertisement {
 	@JoinColumn(name = "company_name_id")
 	private Employer employer;
 	
+	@NotBlank
+	@NotNull
 	@Column(name = "vacant_position")
 	private int vacantPosition;
 	
@@ -60,7 +68,7 @@ public class JobAdvertisement {
 	@Column(name = "active")
 	private boolean active;
 
-	public JobAdvertisement(String jobDescription, Date applicationDeadline, City city, JobTitle jobTitle,
+	public JobPosting(String jobDescription, Date applicationDeadline, City city, JobTitle jobTitle,
 			Employer employer, int vacantPosition, int minimumSalary, int maximumSalary, boolean active) {
 		super();
 		this.jobDescription = jobDescription;

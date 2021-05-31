@@ -4,14 +4,14 @@ import java.util.List;
 
 import com.kodlamaio.hrms.core.utilities.results.DataResult;
 import com.kodlamaio.hrms.core.utilities.results.Result;
-import com.kodlamaio.hrms.entities.Dtos.JobAdvertisementDto;
-import com.kodlamaio.hrms.entities.Dtos.JobAdvertisementRequestDto;
+import com.kodlamaio.hrms.entities.Dtos.JobPostingDto;
+import com.kodlamaio.hrms.entities.Dtos.JobPostingRequestDto;
 
 public interface JobAdvertisementService {
-	DataResult<List<JobAdvertisementDto>> getAll();
-    Result add(JobAdvertisementRequestDto jobAdvertisementRequestDto);
-    DataResult<List<JobAdvertisementDto>> findAllByActiveTrueOrderByCreatedDateDesc();
-    DataResult<List<JobAdvertisementDto>> findAllByIdAndActiveTrue(int employerId);
-    DataResult<JobAdvertisementDto> update(int id,boolean activate);
+	DataResult<List<JobPostingDto>> getAll();
+    Result add(JobPostingRequestDto jobAdvertisementRequestDto);
+    DataResult<List<JobPostingDto>> findAllByActiveTrueOrderByCreatedDateDesc();
+    DataResult<List<JobPostingDto>> findAllByIdAndActiveTrue(int employerId);
+    DataResult<JobPostingDto> update(int id,boolean activate);
     
 }

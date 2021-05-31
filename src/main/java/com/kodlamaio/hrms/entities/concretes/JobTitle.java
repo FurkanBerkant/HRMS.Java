@@ -3,6 +3,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -21,7 +22,8 @@ public class JobTitle {
 	private int id;
 	@Column(name = "position")
 	private String position;
+	@JsonIgnore
 	@OneToMany(mappedBy = "jobTitle")
-	private List<JobAdvertisement> jobAdvertisements;
+	private List<JobPosting> jobAdvertisements;
 
 }
