@@ -1,4 +1,5 @@
 package com.kodlamaio.hrms.entities.concretes;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,17 +17,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "cities")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "jobAdvertisements"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "jobAdvertisements" })
 public class City {
 	@Id
 	@Column(name = "city_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(name = "city_name")
 	private String cityName;
-	
+
 	@Column(name = "plate_code")
 	private int plateCode;
-	
+
 }

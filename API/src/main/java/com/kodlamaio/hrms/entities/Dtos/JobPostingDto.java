@@ -22,4 +22,3 @@ public class JobPostingDto {
 	private int maximumSalary;
 	private boolean active;
 }
-

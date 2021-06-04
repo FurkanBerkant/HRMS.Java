@@ -1,4 +1,5 @@
 package com.kodlamaio.hrms.entities.concretes;
+
 import java.sql.Date;
 import java.time.LocalDate;
 
@@ -15,6 +16,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,20 +27,19 @@ public class EmployersActivationByEmployees {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@OneToOne
 	@JoinColumn(name = "employer_id")
 	private Employer employer;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "employee_id")
 	private Employee employee;
-	
+
 	@Column(name = "is_confirmed")
 	private boolean isConfirmed;
-	
-	@Column(name = "confirm_date")
-	private LocalDate confirmDate=LocalDate.now();
 
-	
+	@Column(name = "confirm_date")
+	private LocalDate confirmDate = LocalDate.now();
+
 }

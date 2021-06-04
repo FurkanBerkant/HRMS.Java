@@ -1,4 +1,5 @@
 package com.kodlamaio.hrms.business.concretes;
+
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,6 +16,7 @@ import com.kodlamaio.hrms.core.utilities.results.SuccessResult;
 import com.kodlamaio.hrms.dataAccess.abstracts.EmployeeDao;
 import com.kodlamaio.hrms.dataAccess.abstracts.UserDao;
 import com.kodlamaio.hrms.entities.concretes.Employee;
+
 @Service
 public class EmployeeManager implements EmployeeService {
 
@@ -22,43 +24,30 @@ public class EmployeeManager implements EmployeeService {
 	private EmployeeDao employeeDao;
 	@Autowired
 	private UserDao userDao;
+
 	@Override
 	public DataResult<List<Employee>> getAll() {
-		return new SuccessDataResult<List<Employee>>
-		(this.employeeDao.findAll(), "system personnel listed");
+		return new SuccessDataResult<List<Employee>>(this.employeeDao.findAll(), "system personnel listed");
 
 	}
 
 	@Override
 	public Result add(Employee employee) {
-		Result result=BusinessRules.run(
-				checkEmailDomain(employee.getEmail()),
-				BusinessRule.checkPasswordExist(employee.getPassword(), 
-												employee.getPasswordCheck()),
-				checkIfEmailExists(employee.getEmail()));
-		if(result.isSuccess()) {
+		Result result = BusinessRules.run(
+				BusinessRule.checkPasswordExist(employee.getPassword(), employee.getPasswordCheck()),
+				checkIfEmailExists(employee.getEmail()), BusinessRule.checkEmailDomain(employee.getEmail()));
+		if (result.isSuccess()) {
 			employeeDao.save(employee);
 			return new SuccessResult("successfully added system personnel");
 		}
 		return new ErrorResult(result.getMessage());
 	}
-	
-	
+
 	private Result checkIfEmailExists(String email) {
-		if(!userDao.existsByEmail(email)) {
+		if (!userDao.existsByEmail(email)) {
 			return new SuccessResult();
 		}
 		return new ErrorResult("this email already exists");
-	}
-	
-	private Result checkEmailDomain(String email) {
-		String regex = "^(.+)@(.+)$";
-		Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(email);
-		if(matcher.matches()) {
-			return new SuccessResult();
-		}
-		return new ErrorResult("must be in e-mail format");
 	}
 
 }

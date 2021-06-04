@@ -1,4 +1,5 @@
 package com.kodlamaio.hrms.entities.concretes;
+
 import java.sql.Date;
 import java.time.LocalDate;
 
@@ -24,7 +25,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -32,20 +33,19 @@ import lombok.NoArgsConstructor;
 public class Technology {
 
 	@Id
-	@Column(name="id")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@JsonProperty(access = Access.WRITE_ONLY)
-	@ManyToOne(targetEntity = Resume.class,fetch = FetchType.LAZY,optional = false)
-	@JoinColumn(name="resume_id")
+	@ManyToOne(targetEntity = Resume.class, fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "resume_id")
 	private Resume resume;
-	
-	
+
 	@Column(name = "description")
 	private String description;
 	
 	@Column(name = "created_date")
-	private LocalDate createdDate=LocalDate.now();
-	
+	private LocalDate createdDate = LocalDate.now();
+
 }

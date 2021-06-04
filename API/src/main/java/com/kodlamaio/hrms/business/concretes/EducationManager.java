@@ -1,30 +1,44 @@
 package com.kodlamaio.hrms.business.concretes;
+
 import java.util.List;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.kodlamaio.hrms.business.BusinessRule;
 import com.kodlamaio.hrms.business.abstracts.EducationService;
+import com.kodlamaio.hrms.core.utilities.dtoConverter.abstracts.DtoConverterService;
 import com.kodlamaio.hrms.core.utilities.results.DataResult;
+import com.kodlamaio.hrms.core.utilities.results.ErrorResult;
 import com.kodlamaio.hrms.core.utilities.results.Result;
 import com.kodlamaio.hrms.core.utilities.results.SuccessDataResult;
 import com.kodlamaio.hrms.core.utilities.results.SuccessResult;
 import com.kodlamaio.hrms.dataAccess.abstracts.EducationDao;
+import com.kodlamaio.hrms.entities.Dtos.EducationDto;
 import com.kodlamaio.hrms.entities.concretes.Education;
 
 @Service
-public class EducationManager implements EducationService{
+public class EducationManager implements EducationService {
 
 	@Autowired
 	private EducationDao educationDao;
-
+	@Autowired
+	private DtoConverterService dtoConverterService;
 	@Override
-	public DataResult<List<Education>> getAll() {
-		return new SuccessDataResult<List<Education>>
-		(this.educationDao.findAll(),"educations listed successfully");
+	public DataResult<List<EducationDto>> getAll() {
+		return new SuccessDataResult<List<EducationDto>>
+		(dtoConverterService.dtoConverter(educationDao.findAll(),EducationDto.class),"education listed");
 	}
 
 	@Override
-	public Result add(Education education) {
-		this.educationDao.save(education);
-		return new SuccessResult("education successfully added");
+	public Result add(EducationDto educationDto) {
+		if(BusinessRule.checkDate(educationDto.getStartedDate(), educationDto.getEndedDate())) {
+			this.educationDao.save(
+					(Education) dtoConverterService.dtoClassConverter(educationDto,Education.class));
+			return new SuccessResult("education successfully added");
+		}
+		return new ErrorResult("enter the date correctly");
 	}
+	
+	
 }

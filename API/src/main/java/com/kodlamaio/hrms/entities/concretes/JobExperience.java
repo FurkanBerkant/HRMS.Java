@@ -1,4 +1,5 @@
 package com.kodlamaio.hrms.entities.concretes;
+
 import java.sql.Date;
 import java.time.LocalDate;
 import javax.persistence.Column;
@@ -20,7 +21,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "resume_job_exp")
@@ -29,29 +30,27 @@ public class JobExperience {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@NotBlank(message = "companyName cannot be blank")
 	@Column(name = "company_name")
 	private String companyName;
 
 	@ManyToOne(targetEntity = JobTitle.class)
-	@JoinColumn(name = "job_position_id",referencedColumnName = "id",nullable = false)
+	@JoinColumn(name = "job_position_id")
 	private JobTitle jobTitle;
-	
+
 	@Column(name = "started_date")
 	private LocalDate startedDate;
-	
+
 	@Column(name = "ended_date")
 	private LocalDate endedDate;
-	
+
 	@JsonProperty(access = Access.WRITE_ONLY)
 	@ManyToOne(targetEntity = Resume.class)
 	@JoinColumn(name = "resume_id")
 	private Resume resume;
-	
+
 	@Column(name = "created_date")
-	private LocalDate createdDate=LocalDate.now();
-	
+	private LocalDate createdDate = LocalDate.now();
 
 }
-

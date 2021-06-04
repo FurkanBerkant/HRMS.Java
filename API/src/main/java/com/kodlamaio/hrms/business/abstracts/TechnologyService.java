@@ -6,6 +6,6 @@ import com.kodlamaio.hrms.entities.Dtos.TechnologyDto;
 import com.kodlamaio.hrms.entities.concretes.Technology;
 
 public interface TechnologyService {
-	DataResult<List<Technology>> getAll();
+	DataResult<List<TechnologyDto>> getAll();
     Result add(TechnologyDto technologyDto);
 }

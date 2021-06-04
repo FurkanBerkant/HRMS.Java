@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CityDto {
 	private String cityName;
-
+	private int plateCode;
 }

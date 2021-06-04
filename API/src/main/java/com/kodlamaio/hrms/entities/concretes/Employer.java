@@ -1,4 +1,5 @@
 package com.kodlamaio.hrms.entities.concretes;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -12,27 +13,23 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "employers")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "jobAdvertisements"})
-public class Employer extends User{
-	
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "jobAdvertisements" })
+public class Employer extends User {
+
 	@NotBlank
 	@Column(name = "company_name")
 	private String companyName;
-	
+
 	@NotBlank(message = "cannot be blank")
 	@Column(name = "web_site_name")
 	private String webSiteName;
-	
+
 	@NotBlank(message = "cannot be blank")
 	@Column(name = "phone")
 	private String phone;
-
-	
-	
-	
 
 }

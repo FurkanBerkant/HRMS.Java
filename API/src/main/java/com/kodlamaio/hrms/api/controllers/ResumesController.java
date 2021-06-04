@@ -5,13 +5,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.kodlamaio.hrms.business.abstracts.ResumeService;
 import com.kodlamaio.hrms.core.utilities.results.DataResult;
-import com.kodlamaio.hrms.entities.Dtos.ResumeDto;
+import com.kodlamaio.hrms.core.utilities.results.Result;
+import com.kodlamaio.hrms.entities.Dtos.ResumeGetDto;
+import com.kodlamaio.hrms.entities.Dtos.ResumeRequestDto;
 import com.kodlamaio.hrms.entities.concretes.Resume;
 
 @RestController
@@ -20,16 +25,22 @@ public class ResumesController {
 	@Autowired
 	private ResumeService resumeService;
 	@GetMapping("/getall")
-	public DataResult<List<Resume>> getAll() {
+	public DataResult<List<ResumeGetDto>> getAll() {
 		return this.resumeService.getAll();
 	}
 	@PostMapping("/add")
-	public ResponseEntity<?> add(@Valid @RequestBody ResumeDto resumesRequestDto) {
-		return  ResponseEntity.ok(resumeService.add(resumesRequestDto));
+	public ResponseEntity<?> add(@Valid @RequestBody ResumeRequestDto resumeRequestDto) {
+		return  ResponseEntity.ok(resumeService.add(resumeRequestDto));
 	}
 	@GetMapping("getByJobSeekerId")
-	public DataResult<List<ResumeDto>> findAllById(@RequestParam("id") int jobSeekerId){
+	public DataResult<List<Resume>> findAllById(@RequestParam("id") int jobSeekerId){
 		return this.resumeService.findAllJobSeekerById(jobSeekerId);
 	}
 
+
+	@PutMapping("/uploadImage")
+	public Result saveImage(@RequestBody MultipartFile file,@RequestParam int resumeId) {
+		return this.resumeService.saveImage(file, resumeId);
+		
+	}
 }

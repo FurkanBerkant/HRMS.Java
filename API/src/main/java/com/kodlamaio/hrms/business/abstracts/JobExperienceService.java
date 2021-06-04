@@ -6,6 +6,6 @@ import com.kodlamaio.hrms.entities.Dtos.JobExperienceDto;
 import com.kodlamaio.hrms.entities.concretes.JobExperience;
 
 public interface JobExperienceService {
-	DataResult<List<JobExperience>> getAll();
+	DataResult<List<JobExperienceDto>> getAll();
     Result add(JobExperienceDto jobExperienceDto);
 }

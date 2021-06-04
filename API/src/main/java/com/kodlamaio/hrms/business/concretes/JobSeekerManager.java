@@ -1,4 +1,5 @@
 package com.kodlamaio.hrms.business.concretes;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -34,71 +35,57 @@ public class JobSeekerManager implements JobSeekerService {
 	private UserDao userDao;
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	@Override
 	public DataResult<List<JobSeeker>> getAll() {
-		return new SuccessDataResult<List<JobSeeker>>
-		(this.jobSeekerDao.findAll(), "job seekers list");
+		return new SuccessDataResult<List<JobSeeker>>(this.jobSeekerDao.findAll(), "job seekers list");
 	}
+
 	@Override
 	public Result add(JobSeekerDto jobSeekersDto) {
-		JobSeeker jobSeekers= modelMapper.map(jobSeekersDto, JobSeeker.class);
-		Result result=BusinessRules.run(
-				BusinessRule.checkPasswordExist(jobSeekers.getPassword(), 
-												jobSeekers.getPasswordCheck()),
-				checkEmailDomain(jobSeekers.getEmail()),
-				checkIfEmailExist(jobSeekers.getEmail()),
-				checkIfIdentityNumberExist(jobSeekers.getIdentityNumber()),
-				checkIfRealPerson(jobSeekers));
-		if(result.isSuccess()) {
-			jobSeekers=jobSeekerDao.save(jobSeekers);
-			sendMail(jobSeekers.getEmail(),"your email has been confirmed");
-			mernisService.validate(jobSeekers.getIdentityNumber(), 
-					jobSeekers.getFirstName(), jobSeekers.getLastName(), jobSeekers.getDateOfBirth());
+		JobSeeker jobSeekers = modelMapper.map(jobSeekersDto, JobSeeker.class);
+		Result result = BusinessRules.run(
+				BusinessRule.checkPasswordExist(jobSeekers.getPassword(), jobSeekers.getPasswordCheck()),
+				BusinessRule.checkEmailDomain(jobSeekers.getEmail()), checkIfEmailExist(jobSeekers.getEmail()),
+				checkIfIdentityNumberExist(jobSeekers.getIdentityNumber()), checkIfRealPerson(jobSeekers));
+		if (result.isSuccess()) {
+			jobSeekers = jobSeekerDao.save(jobSeekers);
+			sendMail(jobSeekers.getEmail(), "your email has been confirmed");
+			mernisService.validate(jobSeekers.getIdentityNumber(), jobSeekers.getFirstName(), jobSeekers.getLastName(),
+					jobSeekers.getDateOfBirth());
 			return new SuccessResult("you have successfully registered.");
-			}
+		}
 		return new ErrorResult(result.getMessage());
 	}
 
 	private Result checkIfEmailExist(String email) {
-		
-		if(!userDao.existsByEmail(email)) {
+
+		if (!userDao.existsByEmail(email)) {
 			return new SuccessResult();
 		}
 		return new ErrorResult("this email is being used");
 	}
-	
-	private Result checkEmailDomain(String email) {
-		String regex = "^(.+)@(.+)$";
-		Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(email);
-		if(matcher.matches()) {
-			return new SuccessResult();
-		}
-		return new ErrorResult("must be in e-mail format");
-	}
+
 	private Result checkIfIdentityNumberExist(String identityNumber) {
-		if(!jobSeekerDao.existsByIdentityNumber(identityNumber))
-		{
+		if (!jobSeekerDao.existsByIdentityNumber(identityNumber)) {
 			return new SuccessResult();
 		}
 		return new ErrorResult("this id is used.");
 	}
-	
+
 	private Result checkIfRealPerson(JobSeeker jobSeeker) {
-		   if(!this.mernisService.validate(jobSeeker.getIdentityNumber(), 
-						   jobSeeker.getFirstName().toUpperCase(new Locale("tr")), 
-						   jobSeeker.getLastName().toLowerCase(new Locale("tr")),
-				   jobSeeker.getDateOfBirth())) {
-			   
-			   return new ErrorResult();
-		   }
-		   return new SuccessResult();
-			
+		if (!this.mernisService.validate(jobSeeker.getIdentityNumber(),
+				jobSeeker.getFirstName().toUpperCase(new Locale("tr")),
+				jobSeeker.getLastName().toLowerCase(new Locale("tr")), jobSeeker.getDateOfBirth())) {
+
+			return new ErrorResult();
 		}
+		return new SuccessResult();
+
+	}
+
 	private void sendMail(String email, String message) {
 		emailService.sendMail(email, message);
 	}
-	
-}
 
+}

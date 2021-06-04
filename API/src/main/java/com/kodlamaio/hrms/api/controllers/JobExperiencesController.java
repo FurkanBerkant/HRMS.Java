@@ -21,7 +21,7 @@ public class JobExperiencesController {
 	private JobExperienceService jobExperienceService;
 	
 	@GetMapping("/getall")
-	public DataResult<List<JobExperience>> getAll() {
+	public DataResult<List<JobExperienceDto>> getAll() {
 		return this.jobExperienceService.getAll();
 	}
 	@PostMapping("/add")

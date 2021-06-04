@@ -1,4 +1,5 @@
 package com.kodlamaio.hrms.entities.concretes;
+
 import java.sql.Date;
 import java.time.LocalDate;
 
@@ -12,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 import org.hibernate.annotations.CreationTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -22,33 +25,33 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="resume_langs")
+@Table(name = "resume_langs")
 public class Language {
 
 	@Id
-	@Column(name="id")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@JsonProperty(access = Access.WRITE_ONLY)
-	@ManyToOne(targetEntity = Resume.class,fetch = FetchType.LAZY,optional = false)
-	@JoinColumn(name="resume_id")
+	@ManyToOne(targetEntity = Resume.class, fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "resume_id")
 	private Resume resume;
+
 	
-	@NotBlank(message = "language cannot be blank")
-	@Column(name="language")
+	@Column(name = "language")
 	private String language;
-	
+
 	@JsonIgnore
-	@Column(name="created_date")
-	private LocalDate createdDate=LocalDate.now();
+	@Column(name = "created_date")
+	private LocalDate createdDate = LocalDate.now();
+
 	
-	@NotBlank(message = "cannot be blank")
-	@Column(name="language_level")
-	private int langLevel;
-	
+	@Column(name = "language_level")
+	private short langLevel;
+
 }

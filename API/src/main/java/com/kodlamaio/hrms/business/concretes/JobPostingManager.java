@@ -1,4 +1,5 @@
 package com.kodlamaio.hrms.business.concretes;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
@@ -17,54 +18,50 @@ import com.kodlamaio.hrms.entities.concretes.JobPosting;
 @Service
 public class JobPostingManager implements JobPostingService {
 	@Autowired
-	private JobPostingDao jobAdvertisementDao;
+	private JobPostingDao jobPostingDao;
 	@Autowired
 	private ModelMapper modelMapper;
 
-
 	@Override
 	public DataResult<List<JobPostingDto>> getAll() {
-		List<JobPosting> jobAdvertisements=jobAdvertisementDao.findAllByActiveTrue();
-		return new SuccessDataResult<List<JobPostingDto>>
-		(jobAdvertisementToDto(jobAdvertisements),"job posting successfully listed");
+		List<JobPosting> jobPostings = jobPostingDao.findAllByActiveTrue();
+		return new SuccessDataResult<List<JobPostingDto>>(jobPostingToDto(jobPostings),
+				"job posting successfully listed");
 	}
+
 	@Override
 	public Result add(JobPostingRequestDto jobAdvertisementRequestDto) {
-		JobPosting jobAdvertisement2 = modelMapper.map(jobAdvertisementRequestDto, 
-																JobPosting.class);
-		jobAdvertisementDao.save(jobAdvertisement2);
+		JobPosting jobPosting = modelMapper.map(jobAdvertisementRequestDto, JobPosting.class);
+		jobPostingDao.save(jobPosting);
 		return new SuccessResult("job posting successfully added");
 	}
+
 	@Override
 	public DataResult<List<JobPostingDto>> findAllByActiveTrueOrderByCreatedDateDesc() {
-		List<JobPosting> jobAdvertisements=jobAdvertisementDao
-				.findAllByActiveTrueOrderByCreatedDateDesc();
-		return new SuccessDataResult<List<JobPostingDto>>
-		(jobAdvertisementToDto(jobAdvertisements),
+		List<JobPosting> jobPostings = jobPostingDao.findAllByActiveTrueOrderByCreatedDateDesc();
+		return new SuccessDataResult<List<JobPostingDto>>(jobPostingToDto(jobPostings),
 				"job postings successfully sorted by date");
 	}
+
 	@Override
 	public DataResult<List<JobPostingDto>> findAllByIdAndActiveTrue(int employerId) {
-		List<JobPosting> jobAdvertisements=jobAdvertisementDao
-				.findAllByEmployerIdAndActiveTrue(employerId);
-		return new SuccessDataResult<List<JobPostingDto>>
-		(jobAdvertisementToDto(jobAdvertisements),
+		List<JobPosting> jobAdvertisements = jobPostingDao.findAllByEmployerIdAndActiveTrue(employerId);
+		return new SuccessDataResult<List<JobPostingDto>>(jobPostingToDto(jobAdvertisements),
 				"job postings sorted by date of employer's job postings");
 	}
 
-
 	@Override
-	public DataResult<JobPostingDto> update(int id,boolean active) {
-		JobPosting jobAdvertisement=jobAdvertisementDao.findById(id).orElse(null);
-		jobAdvertisement.setActive(active);
-		return new SuccessDataResult<JobPostingDto>
-		(modelMapper.map(jobAdvertisementDao.save(jobAdvertisement),JobPostingDto.class));
+	public DataResult<JobPostingDto> update(int id, boolean active) {
+		JobPosting jobPosting = jobPostingDao.findById(id).orElse(null);
+		jobPosting.setActive(active);
+		return new SuccessDataResult<JobPostingDto>(
+				modelMapper.map(jobPostingDao.save(jobPosting), JobPostingDto.class));
 
 	}
-	private List<JobPostingDto> jobAdvertisementToDto
-									   (List<JobPosting> jobAdvertisements){		
-		return jobAdvertisements.stream()
-		.map(jobAdvertisement->modelMapper.map(jobAdvertisement,JobPostingDto.class))
-		.collect(Collectors.toList());
+
+	private List<JobPostingDto> jobPostingToDto(List<JobPosting> jobPostings) {
+		return jobPostings.stream()
+				.map(jobPosting-> modelMapper.map(jobPosting, JobPostingDto.class))
+				.collect(Collectors.toList());
 	}
 }

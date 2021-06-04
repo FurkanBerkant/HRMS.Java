@@ -6,6 +6,6 @@ import com.kodlamaio.hrms.entities.Dtos.LanguageDto;
 import com.kodlamaio.hrms.entities.concretes.Language;
 
 public interface LanguageService {
-	DataResult<List<Language>> getAll();
+	DataResult<List<LanguageDto>> getAll();
     Result add(LanguageDto languageDto);
 }

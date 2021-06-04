@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kodlamaio.hrms.business.abstracts.LanguageService;
 import com.kodlamaio.hrms.core.utilities.results.DataResult;
 import com.kodlamaio.hrms.entities.Dtos.LanguageDto;
-import com.kodlamaio.hrms.entities.concretes.Language;
 
 @RestController
 @RequestMapping("/api/languages")
@@ -19,7 +18,7 @@ public class LanguagesController {
 	@Autowired
 	private LanguageService languageService;
 	@GetMapping("/getall")
-	public DataResult<List<Language>> getAll() {
+	public DataResult<List<LanguageDto>> getAll() {
 		return this.languageService.getAll();
 	}
 	@PostMapping("/add")

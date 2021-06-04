@@ -17,22 +17,20 @@ import com.kodlamaio.hrms.entities.concretes.JobTitle;
 @Service
 public class JobTitleManager implements JobTitleService {
 	@Autowired
-	private  JobTitleDao jobPositionDao;
-
-
+	private JobTitleDao jobPositionDao;
 
 	@Override
 	public DataResult<List<JobTitle>> getAll() {
-		return new SuccessDataResult<List<JobTitle>>
-		(this.jobPositionDao.findAll(),"job positions listed.");
-    }
+		return new SuccessDataResult<List<JobTitle>>(this.jobPositionDao.findAll(), "job positions listed.");
+	}
+
 	@Override
 	public Result add(JobTitle jobPosition) {
-	
+
 		if (this.jobPositionDao.existsByPosition(jobPosition.getPosition())) {
 			return new ErrorResult("job position available");
 		}
 		this.jobPositionDao.save(jobPosition);
-				return new SuccessResult("job position added");
+		return new SuccessResult("job position added");
 	}
 }
