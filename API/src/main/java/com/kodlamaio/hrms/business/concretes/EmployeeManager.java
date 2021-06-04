@@ -34,8 +34,7 @@ public class EmployeeManager implements EmployeeService {
 		Result result = BusinessRules.run(BusinessRules.checkPasswordCharacter(employee.getPassword()),
 				BusinessRules.checkfirstAndLastNameCharacter(employee.getFirstName(), employee.getLastName()),
 				BusinessRules.checkPasswordExist(employee.getPassword(), employee.getPasswordCheck()),
-				checkIfEmailExists(employee.getEmail()), 
-				BusinessRules.checkEmailDomain(employee.getEmail()));
+				checkIfEmailExists(employee.getEmail()), BusinessRules.checkEmailDomain(employee.getEmail()));
 		if (result.isSuccess()) {
 			employeeDao.save(employee);
 			return new SuccessResult("successfully added system personnel");

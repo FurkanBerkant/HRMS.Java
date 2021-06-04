@@ -28,4 +28,9 @@ public class EducationsController {
 	public ResponseEntity<?> add(@Valid @RequestBody EducationDto educationDto) {
 		return ResponseEntity.ok(educationService.add(educationDto));
 	}
+
+	@GetMapping("/orderByStartedDateDesc")
+	public DataResult<List<EducationDto>> orderByStartedDateDesc(int id) {
+		return this.educationService.findAllByResumeIdOrderByStartedDateDesc(id);
+	}
 }

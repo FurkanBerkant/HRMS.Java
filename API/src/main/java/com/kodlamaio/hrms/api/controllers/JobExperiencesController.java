@@ -29,4 +29,9 @@ public class JobExperiencesController {
 	public ResponseEntity<?> add(@Valid @RequestBody JobExperienceDto jobExperienceDto) {
 		return ResponseEntity.ok(jobExperienceService.add(jobExperienceDto));
 	}
+
+	@GetMapping("/ordeByStartedDateDesc")
+	public DataResult<List<JobExperienceDto>> findAllByResumeIdOrderByStartedDateDesc(int id) {
+		return this.jobExperienceService.findAllByResumeIdOrderByEndedDateDesc(id);
+	}
 }

@@ -34,10 +34,18 @@ public class JobExperienceManager implements JobExperienceService {
 	public Result add(JobExperienceDto jobExperienceDto) {
 		jobExperienceDao
 				.save((JobExperience) dtoConverterService.dtoClassConverter(jobExperienceDto, JobExperience.class));
-		if(BusinessRules.checkDate(jobExperienceDto.getStartedDate(), jobExperienceDto.getEndedDate())) {
+		if(!BusinessRules.checkDate(jobExperienceDto.getStartedDate(), jobExperienceDto.getEndedDate())) {
 			return new ErrorResult("başlangıç tarihi bitişten çok olamaz");
 		}
 	return new SuccessResult("jobExperience successfully added");
 		
+	}
+
+	@Override
+	public DataResult<List<JobExperienceDto>> findAllByResumeIdOrderByEndedDateDesc(int id) {
+		List<JobExperience> jobExperiences= jobExperienceDao.findAllByResumeIdOrderByEndedDateDesc(id);
+		return new SuccessDataResult<List<JobExperienceDto>>(
+				dtoConverterService.dtoConverter(jobExperiences, JobExperienceDto.class),
+				"jobExperiences listed start date desc successfully");
 	}
 }

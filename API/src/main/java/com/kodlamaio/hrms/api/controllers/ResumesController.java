@@ -34,7 +34,7 @@ public class ResumesController {
 	public ResponseEntity<?> add(@Valid @RequestBody ResumePostDto resumeRequestDto) {
 		return ResponseEntity.ok(resumeService.add(resumeRequestDto));
 	}
-	
+
 	@GetMapping("getByJobSeekerId")
 	public DataResult<List<Resume>> findAllById(@RequestParam("id") int jobSeekerId) {
 		return this.resumeService.findAllJobSeekerById(jobSeekerId);

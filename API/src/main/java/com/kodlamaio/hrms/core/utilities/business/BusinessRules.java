@@ -3,16 +3,13 @@ package com.kodlamaio.hrms.core.utilities.business;
 import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import com.kodlamaio.hrms.core.utilities.results.ErrorResult;
 import com.kodlamaio.hrms.core.utilities.results.Result;
 import com.kodlamaio.hrms.core.utilities.results.SuccessResult;
 import com.kodlamaio.hrms.entities.concretes.Employer;
 
-import net.bytebuddy.asm.Advice.Local;
+public abstract class BusinessRules {
 
-public class BusinessRules {
-	
 	public static Result run(Result... rules) {
 		for (Result rule : rules) {
 			if (!rule.isSuccess()) {
@@ -53,10 +50,13 @@ public class BusinessRules {
 		return new ErrorResult("must be in e-mail format");
 	}
 
-	public static boolean checkDate(LocalDate startDate,LocalDate endDate) {
-		if(!startDate.isBefore(endDate)) {
-			
-			return false;
+	public static boolean checkDate(LocalDate startDate, LocalDate endDate) {
+		if (endDate != null) {
+			if (!startDate.isBefore(endDate)) {
+
+				return false;
+			}
+
 		}
 
 		return true;

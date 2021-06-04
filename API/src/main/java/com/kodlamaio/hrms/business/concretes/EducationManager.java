@@ -3,7 +3,6 @@ package com.kodlamaio.hrms.business.concretes;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.kodlamaio.hrms.business.abstracts.EducationService;
 import com.kodlamaio.hrms.core.utilities.business.BusinessRules;
 import com.kodlamaio.hrms.core.utilities.dtoConverter.abstracts.DtoConverterService;
@@ -32,11 +31,21 @@ public class EducationManager implements EducationService {
 
 	@Override
 	public Result add(EducationDto educationDto) {
+
 		if (BusinessRules.checkDate(educationDto.getStartedDate(), educationDto.getEndedDate())) {
 			this.educationDao.save((Education) dtoConverterService.dtoClassConverter(educationDto, Education.class));
 			return new SuccessResult("education successfully added");
 		}
 		return new ErrorResult("enter the date correctly");
+	}
+
+	@Override
+	public DataResult<List<EducationDto>> findAllByResumeIdOrderByStartedDateDesc(int id) {
+		List<Education> education = educationDao.findAllByResumeIdOrderByStartedDateDesc(id);
+		return new SuccessDataResult<List<EducationDto>>(
+				dtoConverterService.dtoConverter(education, EducationDto.class), "education tarihe göre sıralandı");
+		
+
 	}
 
 }

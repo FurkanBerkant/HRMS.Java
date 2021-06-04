@@ -9,4 +9,6 @@ public interface EducationService {
 	DataResult<List<EducationDto>> getAll();
 
 	Result add(EducationDto educationDto);
+
+	DataResult<List<EducationDto>> findAllByResumeIdOrderByStartedDateDesc(int id);
 }

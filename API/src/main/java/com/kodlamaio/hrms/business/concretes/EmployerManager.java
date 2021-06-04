@@ -36,8 +36,7 @@ public class EmployerManager implements EmployerService {
 	public Result add(Employer employers) {
 		Result result = BusinessRules.run(BusinessRules.checkPasswordCharacter(employers.getPassword()),
 				BusinessRules.checkPasswordExist(employers.getPassword(), employers.getPasswordCheck()),
-				checkIfEmailExist(employers.getEmail()), 
-				BusinessRules.checkEmployerEmailDomain(employers));
+				checkIfEmailExist(employers.getEmail()), BusinessRules.checkEmployerEmailDomain(employers));
 		if (result.isSuccess()) {
 			employerDao.save(employers);
 			activationCodeService.sendVerificationCode(employers.getId());
@@ -53,8 +52,6 @@ public class EmployerManager implements EmployerService {
 		}
 		return new ErrorResult("this email already exists");
 	}
-
-	
 
 	private void sendMail(String email, String message) {
 		emailService.sendMail(email, message);
