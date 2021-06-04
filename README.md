@@ -17,5 +17,5 @@ src="https://upload.wikimedia.org/wikipedia/commons/2/29/Postgresql_elephant.svg
 
 ### Database Diagram
 
-<img src="https://user-images.githubusercontent.com/76666191/120835634-3ec2e800-c56d-11eb-92fe-59d0eaaeb137.PNG">
+<img src="https://user-images.githubusercontent.com/76666191/120841978-d37d1400-c574-11eb-86cf-eaf8d0942cec.png">
 
