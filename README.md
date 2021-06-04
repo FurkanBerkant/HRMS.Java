@@ -1,5 +1,5 @@
 # HRMS (Human Resource Management System)
-<img src="https://r.resimlink.com/LiGlh.jpg"></img>
+<img src="https://user-images.githubusercontent.com/76666191/120843044-4b980980-c576-11eb-8d2d-425498d4eef0.PNG"></img>
 
 ### Used Technologies
 
