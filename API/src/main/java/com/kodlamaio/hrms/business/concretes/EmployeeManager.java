@@ -1,11 +1,9 @@
 package com.kodlamaio.hrms.business.concretes;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.kodlamaio.hrms.business.BusinessRule;
+
 import com.kodlamaio.hrms.business.abstracts.EmployeeService;
 import com.kodlamaio.hrms.core.utilities.business.BusinessRules;
 import com.kodlamaio.hrms.core.utilities.results.DataResult;
@@ -33,9 +31,11 @@ public class EmployeeManager implements EmployeeService {
 
 	@Override
 	public Result add(Employee employee) {
-		Result result = BusinessRules.run(
-				BusinessRule.checkPasswordExist(employee.getPassword(), employee.getPasswordCheck()),
-				checkIfEmailExists(employee.getEmail()), BusinessRule.checkEmailDomain(employee.getEmail()));
+		Result result = BusinessRules.run(BusinessRules.checkPasswordCharacter(employee.getPassword()),
+				BusinessRules.checkfirstAndLastNameCharacter(employee.getFirstName(), employee.getLastName()),
+				BusinessRules.checkPasswordExist(employee.getPassword(), employee.getPasswordCheck()),
+				checkIfEmailExists(employee.getEmail()), 
+				BusinessRules.checkEmailDomain(employee.getEmail()));
 		if (result.isSuccess()) {
 			employeeDao.save(employee);
 			return new SuccessResult("successfully added system personnel");

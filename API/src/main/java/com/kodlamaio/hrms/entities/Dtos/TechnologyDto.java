@@ -1,9 +1,7 @@
 package com.kodlamaio.hrms.entities.Dtos;
 
 import javax.validation.constraints.NotBlank;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

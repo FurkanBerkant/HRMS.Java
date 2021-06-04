@@ -1,8 +1,6 @@
 package com.kodlamaio.hrms.entities.concretes;
 
-import java.sql.Date;
 import java.time.LocalDate;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import org.hibernate.annotations.CreationTimestamp;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -57,15 +54,6 @@ public class JobPosting {
 	private LocalDate createdDate = LocalDate.now();
 
 	@Column(name = "active")
-	private boolean active;
-	/**
-	 * public JobPosting(String jobDescription, Date applicationDeadline, City city,
-	 * JobTitle jobTitle, Employer employer, int vacantPosition, int minimumSalary,
-	 * int maximumSalary, boolean active) { super(); this.jobDescription =
-	 * jobDescription; this.applicationDeadline = applicationDeadline; this.city =
-	 * city; this.jobTitle = jobTitle; this.employer = employer; this.vacantPosition
-	 * = vacantPosition; this.minimumSalary = minimumSalary; this.maximumSalary =
-	 * maximumSalary; this.active = active; }
-	 **/
+	private boolean active=true;
 
 }

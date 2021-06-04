@@ -1,7 +1,6 @@
 package com.kodlamaio.hrms.business.concretes;
 
 import java.util.List;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.kodlamaio.hrms.business.abstracts.TechnologyService;
@@ -17,7 +16,6 @@ import com.kodlamaio.hrms.entities.concretes.Technology;
 @Service
 public class TechnologyManager implements TechnologyService {
 
-
 	@Autowired
 	private DtoConverterService dtoConverterService;
 	@Autowired
@@ -25,15 +23,14 @@ public class TechnologyManager implements TechnologyService {
 
 	@Override
 	public DataResult<List<TechnologyDto>> getAll() {
-		return new SuccessDataResult<List<TechnologyDto>>
-		(dtoConverterService.dtoConverter(technologyDao.findAll(), TechnologyDto.class),
+		return new SuccessDataResult<List<TechnologyDto>>(
+				dtoConverterService.dtoConverter(technologyDao.findAll(), TechnologyDto.class),
 				"technologies listed successfully");
 	}
 
 	@Override
 	public Result add(TechnologyDto technologyDto) {
-		technologyDao.save(
-				(Technology) dtoConverterService.dtoClassConverter(technologyDto, Technology.class));
+		technologyDao.save((Technology) dtoConverterService.dtoClassConverter(technologyDto, Technology.class));
 		return new SuccessResult("technology successfully added");
 	}
 }

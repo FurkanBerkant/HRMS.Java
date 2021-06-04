@@ -1,4 +1,5 @@
 package com.kodlamaio.hrms.api.controllers;
+
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +18,15 @@ import com.kodlamaio.hrms.entities.concretes.JobTitle;
 public class JobTitlesController {
 	@Autowired
 	private JobTitleService jobPositionService;
-	
+
 	@GetMapping("/getall")
 	public DataResult<List<JobTitle>> getAll() {
 		return this.jobPositionService.getAll();
 	}
+
 	@PostMapping("/add")
 	public ResponseEntity<?> add(@Valid @RequestBody JobTitle jobPosition) {
-		return  ResponseEntity.ok(jobPositionService.add(jobPosition));
+		return ResponseEntity.ok(jobPositionService.add(jobPosition));
 	}
-	
+
 }

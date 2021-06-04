@@ -28,6 +28,6 @@ public class City {
 	private String cityName;
 
 	@Column(name = "plate_code")
-	private int plateCode;
+	private String plateCode;
 
 }

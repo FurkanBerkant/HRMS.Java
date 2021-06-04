@@ -1,4 +1,5 @@
 package com.kodlamaio.hrms.api.controllers;
+
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +18,15 @@ import com.kodlamaio.hrms.entities.Dtos.TechnologyDto;
 public class TechnologyController {
 	@Autowired
 	private TechnologyService technologyService;
+
 	@GetMapping("/getall")
-	
+
 	public DataResult<List<TechnologyDto>> getAll() {
 		return this.technologyService.getAll();
 	}
+
 	@PostMapping("/add")
 	public ResponseEntity<?> add(@Valid @RequestBody TechnologyDto technologyDto) {
-		return  ResponseEntity.ok(technologyService.add(technologyDto));
+		return ResponseEntity.ok(technologyService.add(technologyDto));
 	}
 }

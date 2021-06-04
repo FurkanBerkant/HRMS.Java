@@ -2,13 +2,8 @@ package com.kodlamaio.hrms.business.concretes;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.kodlamaio.hrms.business.BusinessRule;
 import com.kodlamaio.hrms.business.abstracts.JobSeekerService;
 import com.kodlamaio.hrms.core.utilities.adapters.abstracts.EmailService;
 import com.kodlamaio.hrms.core.utilities.adapters.abstracts.MernisService;
@@ -20,7 +15,6 @@ import com.kodlamaio.hrms.core.utilities.results.SuccessDataResult;
 import com.kodlamaio.hrms.core.utilities.results.SuccessResult;
 import com.kodlamaio.hrms.dataAccess.abstracts.JobSeekerDao;
 import com.kodlamaio.hrms.dataAccess.abstracts.UserDao;
-import com.kodlamaio.hrms.entities.Dtos.JobSeekerDto;
 import com.kodlamaio.hrms.entities.concretes.JobSeeker;
 
 @Service
@@ -33,8 +27,6 @@ public class JobSeekerManager implements JobSeekerService {
 	private EmailService emailService;
 	@Autowired
 	private UserDao userDao;
-	@Autowired
-	private ModelMapper modelMapper;
 
 	@Override
 	public DataResult<List<JobSeeker>> getAll() {
@@ -42,12 +34,13 @@ public class JobSeekerManager implements JobSeekerService {
 	}
 
 	@Override
-	public Result add(JobSeekerDto jobSeekersDto) {
-		JobSeeker jobSeekers = modelMapper.map(jobSeekersDto, JobSeeker.class);
-		Result result = BusinessRules.run(
-				BusinessRule.checkPasswordExist(jobSeekers.getPassword(), jobSeekers.getPasswordCheck()),
-				BusinessRule.checkEmailDomain(jobSeekers.getEmail()), checkIfEmailExist(jobSeekers.getEmail()),
+	public Result add(JobSeeker jobSeekers) {
+		Result result = BusinessRules.run(BusinessRules.checkPasswordCharacter(jobSeekers.getPassword()),
+				BusinessRules.checkfirstAndLastNameCharacter(jobSeekers.getFirstName(), jobSeekers.getLastName()),
+				BusinessRules.checkPasswordExist(jobSeekers.getPassword(), jobSeekers.getPasswordCheck()),
+				BusinessRules.checkEmailDomain(jobSeekers.getEmail()), checkIfEmailExist(jobSeekers.getEmail()),
 				checkIfIdentityNumberExist(jobSeekers.getIdentityNumber()), checkIfRealPerson(jobSeekers));
+
 		if (result.isSuccess()) {
 			jobSeekers = jobSeekerDao.save(jobSeekers);
 			sendMail(jobSeekers.getEmail(), "your email has been confirmed");

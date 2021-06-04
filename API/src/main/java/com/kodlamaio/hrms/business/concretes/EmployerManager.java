@@ -1,12 +1,8 @@
 package com.kodlamaio.hrms.business.concretes;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.kodlamaio.hrms.business.BusinessRule;
 import com.kodlamaio.hrms.business.abstracts.ActivationCodeService;
 import com.kodlamaio.hrms.business.abstracts.EmployerService;
 import com.kodlamaio.hrms.core.utilities.adapters.abstracts.EmailService;
@@ -38,9 +34,10 @@ public class EmployerManager implements EmployerService {
 
 	@Override
 	public Result add(Employer employers) {
-		Result result = BusinessRules.run(
-				BusinessRule.checkPasswordExist(employers.getPassword(), employers.getPasswordCheck()),
-				checkIfEmailExist(employers.getEmail()), checkEmailDomain(employers));
+		Result result = BusinessRules.run(BusinessRules.checkPasswordCharacter(employers.getPassword()),
+				BusinessRules.checkPasswordExist(employers.getPassword(), employers.getPasswordCheck()),
+				checkIfEmailExist(employers.getEmail()), 
+				BusinessRules.checkEmployerEmailDomain(employers));
 		if (result.isSuccess()) {
 			employerDao.save(employers);
 			activationCodeService.sendVerificationCode(employers.getId());
@@ -57,26 +54,7 @@ public class EmployerManager implements EmployerService {
 		return new ErrorResult("this email already exists");
 	}
 
-	private Result checkEmailDomain(Employer employers) {
-		try {
-			String webSiteName[] = employers.getWebSiteName().split("\\.");
-			String regex = "^(.+)@" + webSiteName[1] + "(.+)$";
-			Pattern pattern = Pattern.compile(regex);
-			Matcher matcher = pattern.matcher(employers.getEmail());
-			if (matcher.matches()) {
-				return new SuccessResult();
-			}
-		} catch (Exception e) {
-			String domain = employers.getWebSiteName();
-			if (domain.contains("www.")) {
-				domain = domain.substring(4);
-			}
-			if (employers.getEmail().contains("@" + domain)) {
-				return new SuccessResult();
-			}
-		}
-		return new ErrorResult("Email and web adress domains must be same.");
-	}
+	
 
 	private void sendMail(String email, String message) {
 		emailService.sendMail(email, message);

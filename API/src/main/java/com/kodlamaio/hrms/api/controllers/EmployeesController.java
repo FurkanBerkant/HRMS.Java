@@ -1,4 +1,5 @@
 package com.kodlamaio.hrms.api.controllers;
+
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,8 @@ public class EmployeesController {
 	private EmployeeService employeeService;
 
 	@PostMapping("/add")
-	public ResponseEntity<?> add(@Valid @RequestBody  Employee employee) {
-		return  ResponseEntity.ok(employeeService.add(employee)) ;
+	public ResponseEntity<?> add(@Valid @RequestBody Employee employee) {
+		return ResponseEntity.ok(employeeService.add(employee));
 	}
 
 	@GetMapping("/getall")

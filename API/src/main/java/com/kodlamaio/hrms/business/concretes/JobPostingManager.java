@@ -11,8 +11,8 @@ import com.kodlamaio.hrms.core.utilities.results.Result;
 import com.kodlamaio.hrms.core.utilities.results.SuccessDataResult;
 import com.kodlamaio.hrms.core.utilities.results.SuccessResult;
 import com.kodlamaio.hrms.dataAccess.abstracts.JobPostingDao;
-import com.kodlamaio.hrms.entities.Dtos.JobPostingDto;
-import com.kodlamaio.hrms.entities.Dtos.JobPostingRequestDto;
+import com.kodlamaio.hrms.entities.Dtos.JobPostingGetDto;
+import com.kodlamaio.hrms.entities.Dtos.JobPostingPostDto;
 import com.kodlamaio.hrms.entities.concretes.JobPosting;
 
 @Service
@@ -23,45 +23,45 @@ public class JobPostingManager implements JobPostingService {
 	private ModelMapper modelMapper;
 
 	@Override
-	public DataResult<List<JobPostingDto>> getAll() {
+	public DataResult<List<JobPostingGetDto>> getAll() {
 		List<JobPosting> jobPostings = jobPostingDao.findAllByActiveTrue();
-		return new SuccessDataResult<List<JobPostingDto>>(jobPostingToDto(jobPostings),
+		return new SuccessDataResult<List<JobPostingGetDto>>(jobPostingToDto(jobPostings),
 				"job posting successfully listed");
 	}
 
 	@Override
-	public Result add(JobPostingRequestDto jobAdvertisementRequestDto) {
+	public Result add(JobPostingPostDto jobAdvertisementRequestDto) {
 		JobPosting jobPosting = modelMapper.map(jobAdvertisementRequestDto, JobPosting.class);
 		jobPostingDao.save(jobPosting);
 		return new SuccessResult("job posting successfully added");
 	}
 
 	@Override
-	public DataResult<List<JobPostingDto>> findAllByActiveTrueOrderByCreatedDateDesc() {
+	public DataResult<List<JobPostingGetDto>> findAllByActiveTrueOrderByCreatedDateDesc() {
 		List<JobPosting> jobPostings = jobPostingDao.findAllByActiveTrueOrderByCreatedDateDesc();
-		return new SuccessDataResult<List<JobPostingDto>>(jobPostingToDto(jobPostings),
+		return new SuccessDataResult<List<JobPostingGetDto>>(jobPostingToDto(jobPostings),
 				"job postings successfully sorted by date");
 	}
 
 	@Override
-	public DataResult<List<JobPostingDto>> findAllByIdAndActiveTrue(int employerId) {
+	public DataResult<List<JobPostingGetDto>> findAllByIdAndActiveTrue(int employerId) {
 		List<JobPosting> jobAdvertisements = jobPostingDao.findAllByEmployerIdAndActiveTrue(employerId);
-		return new SuccessDataResult<List<JobPostingDto>>(jobPostingToDto(jobAdvertisements),
+		return new SuccessDataResult<List<JobPostingGetDto>>(jobPostingToDto(jobAdvertisements),
 				"job postings sorted by date of employer's job postings");
 	}
 
 	@Override
-	public DataResult<JobPostingDto> update(int id, boolean active) {
+	public DataResult<JobPostingGetDto> update(int id, boolean active) {
 		JobPosting jobPosting = jobPostingDao.findById(id).orElse(null);
 		jobPosting.setActive(active);
-		return new SuccessDataResult<JobPostingDto>(
-				modelMapper.map(jobPostingDao.save(jobPosting), JobPostingDto.class));
+		return new SuccessDataResult<JobPostingGetDto>(
+				modelMapper.map(jobPostingDao.save(jobPosting), JobPostingGetDto.class));
 
 	}
 
-	private List<JobPostingDto> jobPostingToDto(List<JobPosting> jobPostings) {
+	private List<JobPostingGetDto> jobPostingToDto(List<JobPosting> jobPostings) {
 		return jobPostings.stream()
-				.map(jobPosting-> modelMapper.map(jobPosting, JobPostingDto.class))
+				.map(jobPosting-> modelMapper.map(jobPosting, JobPostingGetDto.class))
 				.collect(Collectors.toList());
 	}
 }

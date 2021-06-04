@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "system_employees")
+@Table(name = "employees")
 public class Employee extends User {
 	@NotBlank(message = "cannot be blank")
 	@Column(name = "firstname")

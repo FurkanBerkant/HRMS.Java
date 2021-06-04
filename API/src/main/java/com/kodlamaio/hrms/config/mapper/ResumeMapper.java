@@ -9,18 +9,18 @@ import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import com.kodlamaio.hrms.entities.Dtos.ResumeGetDto;
-import com.kodlamaio.hrms.entities.Dtos.ResumeRequestDto;
+import com.kodlamaio.hrms.entities.Dtos.ResumePostDto;
 import com.kodlamaio.hrms.entities.concretes.Resume;
 
 @Mapper(componentModel = "spring")
 public interface ResumeMapper {
 
-	ResumeMapper INSTANCE= Mappers.getMapper(ResumeMapper.class);
-	
+	ResumeMapper INSTANCE = Mappers.getMapper(ResumeMapper.class);
+
 	@Mapping(source = "edcschoolName", target = "education.schoolName")
-	
+
 	@Mapping(source = "edcschoolDepartment", target = "education.schoolDepartment")
-	
+
 	@Mapping(source = "edcstartedDate", target = "education.startedDate")
 
 	@Mapping(source = "grdDescription", target = "education.graduate.description")
@@ -41,11 +41,11 @@ public interface ResumeMapper {
 
 	@Mapping(source = "techDescription", target = "technologies.description")
 
-	Resume map(ResumeRequestDto resumeRequestDto);
-	
+	Resume map(ResumePostDto resumeRequestDto);
+
 	@Named("toGetDto")
 	ResumeGetDto map(Resume resume);
-	
+
 	@IterableMapping(qualifiedByName = "togGetDto")
 	List<ResumeGetDto> map(List<Resume> resumes);
 }

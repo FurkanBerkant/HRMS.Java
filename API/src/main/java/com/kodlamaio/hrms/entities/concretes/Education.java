@@ -1,8 +1,6 @@
 package com.kodlamaio.hrms.entities.concretes;
 
-import java.sql.Date;
 import java.time.LocalDate;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,10 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import org.hibernate.annotations.CreationTimestamp;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import lombok.AllArgsConstructor;
@@ -48,10 +44,10 @@ public class Education {
 	private String schoolDepartment;
 
 	@Column(name = "started_date")
-	private int startedDate;
+	private LocalDate startedDate;
 
 	@Column(name = "ended_date")
-	private int endedDate;
+	private LocalDate endedDate;
 
 	@Column(name = "created_date")
 	private LocalDate createdDate = LocalDate.now();

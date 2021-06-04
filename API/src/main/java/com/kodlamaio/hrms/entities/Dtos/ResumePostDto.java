@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResumeRequestDto {
+public class ResumePostDto {
 	@JsonIgnore
 	private int id;
 	private int jobSeekerId;

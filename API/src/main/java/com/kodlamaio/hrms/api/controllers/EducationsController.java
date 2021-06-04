@@ -1,4 +1,5 @@
 package com.kodlamaio.hrms.api.controllers;
+
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,19 +12,20 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kodlamaio.hrms.business.abstracts.EducationService;
 import com.kodlamaio.hrms.core.utilities.results.DataResult;
 import com.kodlamaio.hrms.entities.Dtos.EducationDto;
-import com.kodlamaio.hrms.entities.concretes.Education;
+
 @RestController
 @RequestMapping("/api/educations")
 public class EducationsController {
 	@Autowired
 	private EducationService educationService;
-	
+
 	@GetMapping("/getall")
 	public DataResult<List<EducationDto>> getAll() {
 		return this.educationService.getAll();
 	}
+
 	@PostMapping("/add")
 	public ResponseEntity<?> add(@Valid @RequestBody EducationDto educationDto) {
-		return  ResponseEntity.ok(educationService.add(educationDto));
+		return ResponseEntity.ok(educationService.add(educationDto));
 	}
 }

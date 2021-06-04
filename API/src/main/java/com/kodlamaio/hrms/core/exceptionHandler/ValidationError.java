@@ -4,7 +4,7 @@ public class ValidationError {
 	private boolean success;
 	private String message;
 	private String details;
-	
+
 	public ValidationError(boolean success, String message, String details) {
 		super();
 		this.success = success;
@@ -35,5 +35,5 @@ public class ValidationError {
 	public void setDetails(String details) {
 		this.details = details;
 	}
-	
+
 }

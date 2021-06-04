@@ -1,4 +1,5 @@
 package com.kodlamaio.hrms.api.controllers;
+
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,9 @@ public class GraduatesController {
 	public DataResult<List<Graduate>> getAll() {
 		return this.graduateService.getAll();
 	}
+
 	@PostMapping("/add")
 	public ResponseEntity<?> add(@Valid @RequestBody Graduate graduate) {
-		return  ResponseEntity.ok(graduateService.add(graduate));
+		return ResponseEntity.ok(graduateService.add(graduate));
 	}
 }

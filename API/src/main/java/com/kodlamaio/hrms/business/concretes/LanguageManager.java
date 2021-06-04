@@ -1,10 +1,7 @@
 package com.kodlamaio.hrms.business.concretes;
 
 import java.util.List;
-
 import javax.validation.Valid;
-
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.kodlamaio.hrms.business.abstracts.LanguageService;
@@ -24,16 +21,17 @@ public class LanguageManager implements LanguageService {
 	private LanguageDao languageDao;
 	@Autowired
 	private DtoConverterService dtoConverterService;
+
 	@Override
 	public DataResult<List<LanguageDto>> getAll() {
-		return new SuccessDataResult<List<LanguageDto>>
-		(dtoConverterService.dtoConverter(languageDao.findAll(), LanguageDto.class),"languages listed successfully");
+		return new SuccessDataResult<List<LanguageDto>>(
+				dtoConverterService.dtoConverter(languageDao.findAll(), LanguageDto.class),
+				"languages listed successfully");
 	}
 
 	@Override
 	public Result add(@Valid LanguageDto languageDto) {
-		languageDao.save((Language) dtoConverterService.dtoClassConverter
-				(languageDto, Language.class));
+		languageDao.save((Language) dtoConverterService.dtoClassConverter(languageDto, Language.class));
 		return new SuccessResult("language successfully added");
 	}
 }

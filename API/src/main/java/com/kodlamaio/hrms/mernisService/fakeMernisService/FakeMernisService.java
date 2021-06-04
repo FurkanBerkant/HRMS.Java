@@ -1,6 +1,5 @@
 package com.kodlamaio.hrms.mernisService.fakeMernisService;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 public class FakeMernisService {

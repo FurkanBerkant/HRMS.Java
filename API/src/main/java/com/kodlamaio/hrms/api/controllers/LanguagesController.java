@@ -1,4 +1,5 @@
 package com.kodlamaio.hrms.api.controllers;
+
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,12 @@ import com.kodlamaio.hrms.entities.Dtos.LanguageDto;
 public class LanguagesController {
 	@Autowired
 	private LanguageService languageService;
+
 	@GetMapping("/getall")
 	public DataResult<List<LanguageDto>> getAll() {
 		return this.languageService.getAll();
 	}
+
 	@PostMapping("/add")
 	public ResponseEntity<?> add(@Valid @RequestBody LanguageDto languageDto) {
 		return ResponseEntity.ok(languageService.add(languageDto));

@@ -1,4 +1,5 @@
 package com.kodlamaio.hrms.api.controllers;
+
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +15,11 @@ import com.kodlamaio.hrms.core.utilities.results.Result;
 public class ActivationCodesController {
 	@Autowired
 	private ActivationCodeService activationCodeService;
-	
-
 
 	@PostMapping("/verify/{activationCode}")
 	public ResponseEntity<?> verify(@Valid @RequestParam("activationCode") String code) {
 		Result result = activationCodeService.verify(code);
-		
+
 		return ResponseEntity.ok(result);
 	}
 }

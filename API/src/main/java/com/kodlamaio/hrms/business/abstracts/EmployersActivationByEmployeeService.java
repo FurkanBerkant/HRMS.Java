@@ -4,5 +4,5 @@ import com.kodlamaio.hrms.core.utilities.results.Result;
 
 public interface EmployersActivationByEmployeeService {
 
-	Result systemVerify(int employerId,int employeeId);
+	Result systemVerify(int employerId, int employeeId);
 }

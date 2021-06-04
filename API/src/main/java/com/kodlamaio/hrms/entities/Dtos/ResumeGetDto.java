@@ -1,14 +1,11 @@
 package com.kodlamaio.hrms.entities.Dtos;
 
-import java.time.LocalDate;
-
-import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 import com.kodlamaio.hrms.entities.concretes.Education;
 import com.kodlamaio.hrms.entities.concretes.JobExperience;
 import com.kodlamaio.hrms.entities.concretes.Language;
 import com.kodlamaio.hrms.entities.concretes.Technology;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,10 +20,9 @@ public class ResumeGetDto {
 	private String githubLink;
 	private String photoUrl;
 	private String description;
-	private JobExperience jobExperience;
-	private Language language;
-	private Technology technologies;
-	private Education education;
-	
+	private List<JobExperience> jobExperiences;
+	private List<Language> languages;
+	private List<Technology> technologies;
+	private List<Education> education;
 
 }
