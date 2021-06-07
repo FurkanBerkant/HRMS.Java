@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 public class ResumeGetDto {
 	private int id;
 	private int jobSeekerId;
+	private String jobSeekerFirstName;
 	private String linkedInLink;
 	private String githubLink;
 	private String photoUrl;
