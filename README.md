@@ -19,3 +19,10 @@ src="https://upload.wikimedia.org/wikipedia/commons/2/29/Postgresql_elephant.svg
 
 <img src="https://user-images.githubusercontent.com/76666191/120841978-d37d1400-c574-11eb-86cf-eaf8d0942cec.png">
 
+
+### UML component diagram
+
+
+<img src="https://user-images.githubusercontent.com/76666191/121215726-ee0f0000-c888-11eb-9855-a88e20fc0fe3.PNG">
+
+
